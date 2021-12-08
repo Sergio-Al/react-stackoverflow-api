@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import queryString from "query-string";
+import { Link, useSearchParams } from "react-router-dom";
 import Card from "../components/Card/Card";
 
 const FeedWrapper = styled.div`
@@ -19,16 +20,40 @@ const CardLink = styled(Link)`
   color: inherit;
 `;
 
+const PaginationBar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const PaginationLink = styled(Link)`
+  padding: 1%;
+  background: lightblue;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+`;
+
 const ROOT_API = "https://api.stackexchange.com/2.2/";
 
 export default function Feed() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [page, setPage] = useState();
+  const query = queryString.parse(Location.search);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    setPage(query.page ? parseInt(query.page) : 1);
+    console.log(query.page);
+  }, [page]);
 
   useEffect(() => {
     fetch(
-      `${ROOT_API}questions?order=desc&sort=activity&tagged=reactjs&site=stackoverflow`
+      `${ROOT_API}questions?order=desc&sort=activity&tagged=reactjs&site=stackoverflow${
+        page ? `page=${page}` : ""
+      }`
     )
       .then((resdata) => resdata.json())
       .then(setData)
@@ -45,6 +70,8 @@ export default function Feed() {
   if (loading || error) {
     return <Alert>{loading ? "Loading..." : error}</Alert>;
   }
+
+  console.log(searchParams.get("page"));
 
   return (
     <FeedWrapper>

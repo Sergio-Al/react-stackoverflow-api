@@ -30,6 +30,7 @@ export default function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Feed />} />
+          <Route path="/questions" element={<Feed />} />
           <Route path="/questions/:id" element={<Question />} />
         </Routes>
       </AppWrapper>
