@@ -4,6 +4,7 @@ import { Link, useSearchParams, useLocation } from "react-router-dom";
 import Card from "../components/Card/Card";
 import MainTitle from "../components/MainTitle/MainTitle";
 import CardSkeleton from "../components/Card/CardSkeleton";
+import ErrorComponent from "../components/ErrorComp/ErrorComp";
 
 const FeedWrapper = styled.div`
   display: flex;
@@ -61,6 +62,20 @@ const PaginationBar = styled.div`
   }
 `;
 
+const OtherCompWrapper = styled.div`
+  max-width: 1040px;
+  width: 100%;
+  padding-top: 23px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+
+  @media (max-width: 380px) {
+    padding: 23px 10px 5px 10px;
+    margin-bottom: 10px;
+  }
+`;
+
 const PaginationLink = styled(Link)`
   padding: 1%;
   background: linear-gradient(180deg, #3c43ff 0%, #484edd 100%);
@@ -111,6 +126,16 @@ export default function Feed() {
 
   if (error) {
     return <Alert>{error}</Alert>;
+  }
+
+  if (data.error_id) {
+    return (
+      <OtherCompWrapper>
+        <FeedWrapper>
+          <ErrorComponent text={data.error_message} />
+        </FeedWrapper>
+      </OtherCompWrapper>
+    );
   }
 
   data.items.splice(1, 0, <MainTitle />);
