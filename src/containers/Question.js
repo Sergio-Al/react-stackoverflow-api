@@ -6,6 +6,7 @@ import Card from "../components/Card/Card";
 const QuestionWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-direction: column;
   margin: 5%auto;
 `;

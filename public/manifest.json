@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Questions App",
+  "name": "An app that shows a lot of question from the Stack Exchange API",
   "icons": [
     {
       "src": "favicon.ico",
