@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import imageIcon from "../../assets/images/stack-overflow.png";
+import Helmet from "react-helmet";
 
 const HeaderWrapper = styled.div`
   background: linear-gradient(180deg, #ff7a00 0%, #ff9d42 95.83%);
@@ -34,7 +35,7 @@ const Title = styled.h1`
 
   width: auto;
 
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     font-size: 36px;
   }
 `;
@@ -47,11 +48,20 @@ const CustomIcon = styled.img`
 
 export default function Header() {
   return (
-    <HeaderWrapper>
-      <TitleWrapper>
-        <CustomIcon src={imageIcon} alt="icon " />
-        <Title>A lot of Questions</Title>
-      </TitleWrapper>
-    </HeaderWrapper>
+    <>
+      <Helmet>
+        <title>The Stack Overflow Questions</title>
+        <meta
+          name="description"
+          content="There are many question about React from Stack Overflow"
+        />
+      </Helmet>
+      <HeaderWrapper>
+        <TitleWrapper>
+          <CustomIcon src={imageIcon} alt="icon " />
+          <Title>A lot of Questions</Title>
+        </TitleWrapper>
+      </HeaderWrapper>
+    </>
   );
 }

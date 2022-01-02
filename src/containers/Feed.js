@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
+import Helmet from "react-helmet";
 import Card from "../components/Card/Card";
 import MainTitle from "../components/MainTitle/MainTitle";
 import CardSkeleton from "../components/Card/CardSkeleton";
@@ -141,38 +142,43 @@ export default function Feed() {
   data.items.splice(1, 0, <MainTitle />);
 
   return (
-    <FeedWrapper>
-      {data.items.map((item, i) => {
-        if (item.question_id) {
-          return (
-            <CardLink
-              key={item.question_id}
-              to={`/questions/${item.question_id}`}
+    <>
+      <Helmet>
+        <title>The Stack Overflow Questions - Questions</title>
+      </Helmet>
+      <FeedWrapper>
+        {data.items.map((item, i) => {
+          if (item.question_id) {
+            return (
+              <CardLink
+                key={item.question_id}
+                to={`/questions/${item.question_id}`}
+              >
+                <Card data={item} />
+              </CardLink>
+            );
+          }
+          return <div key={i}>{item}</div>;
+        })}
+        <PaginationBar>
+          {page > 1 && (
+            <PaginationLink
+              onClick={() => setPage(page - 1)}
+              to={`${pathname}?page=${page - 1}`}
             >
-              <Card data={item} />
-            </CardLink>
-          );
-        }
-        return <div key={i}>{item}</div>;
-      })}
-      <PaginationBar>
-        {page > 1 && (
-          <PaginationLink
-            onClick={() => setPage(page - 1)}
-            to={`${pathname}?page=${page - 1}`}
-          >
-            Previous
-          </PaginationLink>
-        )}
-        {data.has_more && (
-          <PaginationLink
-            onClick={() => setPage(page + 1)}
-            to={`${pathname}?page=${page + 1}`}
-          >
-            Next
-          </PaginationLink>
-        )}
-      </PaginationBar>
-    </FeedWrapper>
+              Previous
+            </PaginationLink>
+          )}
+          {data.has_more && (
+            <PaginationLink
+              onClick={() => setPage(page + 1)}
+              to={`${pathname}?page=${page + 1}`}
+            >
+              Next
+            </PaginationLink>
+          )}
+        </PaginationBar>
+      </FeedWrapper>
+    </>
   );
 }
